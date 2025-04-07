@@ -1,7 +1,10 @@
 package com.daniil.otp.controller.dto;
 
+import lombok.Data;
+
+@Data
 public class AuthRequest {
 
-    public String login;
-    public String password;
+    private String login;
+    private String password;
 }

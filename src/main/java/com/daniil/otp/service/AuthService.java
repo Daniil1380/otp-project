@@ -27,7 +27,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
-        if (request.role.equalsIgnoreCase("ADMIN")) {
+        if (request.getRole().equalsIgnoreCase("ADMIN")) {
             boolean adminExists = userRepository.findAll()
                     .stream()
                     .anyMatch(user -> user.getRole().equalsIgnoreCase("ADMIN"));
@@ -37,12 +37,12 @@ public class AuthService {
         }
 
         User user = User.builder()
-                .login(request.login)
-                .encryptedPassword(passwordEncoder.encode(request.password))
-                .role(request.role.toUpperCase())
-                .email(request.email)
-                .phoneNumber(request.phoneNumber)
-                .telegram(request.telegram)
+                .login(request.getLogin())
+                .encryptedPassword(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole().toUpperCase())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .telegram(request.getTelegram())
                 .build();
 
         userRepository.save(user);
@@ -52,10 +52,10 @@ public class AuthService {
 
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.login, request.password)
+                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
 
-        User user = userRepository.findByLogin(request.login)
+        User user = userRepository.findByLogin(request.getLogin())
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
 
         String token = jwtService.generateToken(Map.of(), user.getLogin());

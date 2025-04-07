@@ -1,6 +1,9 @@
 package com.daniil.otp.controller.dto;
 
+import lombok.Data;
+
+@Data
 public class OtpValidationRequest {
-    public String operationId;
-    public String code;
+    private String operationId;
+    private String code;
 }

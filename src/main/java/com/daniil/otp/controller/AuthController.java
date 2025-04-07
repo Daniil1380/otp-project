@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public AuthResponse register(@RequestBody RegisterRequest request) {
-        log.info("Запрос на регистрацию: email={}, username={}", request.email, request.login);
+        log.info("Запрос на регистрацию: email={}, username={}", request.getEmail(), request.getLogin());
         AuthResponse response = authService.register(request);
         log.info("Регистрация прошла успешно: {}", response);
         return response;
@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        log.info("Запрос на вход: login={}", request.login);
+        log.info("Запрос на вход: login={}", request.getLogin());
         AuthResponse response = authService.authenticate(request);
         log.info("Вход выполнен успешно: {}", response);
         return response;

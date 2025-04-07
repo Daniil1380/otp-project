@@ -1,10 +1,13 @@
 package com.daniil.otp.controller.dto;
 
+import lombok.Data;
+
+@Data
 public class RegisterRequest {
-    public String login;
-    public String password;
-    public String role; // "ADMIN" или "USER"
-    public String email;
-    public String phoneNumber;
-    public String telegram;
+    private String login;
+    private String password;
+    private String role; // "ADMIN" или "USER"
+    private String email;
+    private String phoneNumber;
+    private String telegram;
 }

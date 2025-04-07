@@ -1,6 +1,9 @@
 package com.daniil.otp.controller.dto;
 
+import lombok.Data;
+
+@Data
 public class OtpRequest {
-    public String operationId;
-    public String deliveryType; // "EMAIL", "SMS", "FILE"
+    private String operationId;
+    private String deliveryType; // "EMAIL", "SMS", "FILE"
 }

@@ -41,7 +41,7 @@ public class OtpService {
 
         OtpCode otp = OtpCode.builder()
                 .code(code)
-                .operationId(request.operationId)
+                .operationId(request.getOperationId())
                 .createdAt(LocalDateTime.now())
                 .user(currentUser)
                 .state(OtpState.ACTIVE)
@@ -50,7 +50,7 @@ public class OtpService {
         otpCodeRepository.save(otp);
 
         // "Отправка" кода
-        switch (request.deliveryType.toUpperCase()) {
+        switch (request.getDeliveryType().toUpperCase()) {
             case "FILE" -> saveToFile(currentUser.getLogin(), code);
             case "EMAIL" -> emailService.sendEmail(currentUser, code);
             case "SMS" -> smppService.sendSms(currentUser.getPhoneNumber(), code);
@@ -62,7 +62,7 @@ public class OtpService {
     }
 
     public boolean validateOtp(OtpValidationRequest request) {
-        Optional<OtpCode> otpOptional = otpCodeRepository.findByOperationId(request.operationId);
+        Optional<OtpCode> otpOptional = otpCodeRepository.findByOperationId(request.getOperationId());
         if (otpOptional.isEmpty()) return false;
 
         if (otpOptional.get().getState() != OtpState.ACTIVE) return false;
@@ -71,7 +71,7 @@ public class OtpService {
         otp.setState(OtpState.USED);
         otpCodeRepository.save(otp);
         // Можно добавить проверку времени жизни
-        return otp.getCode().equals(request.code);
+        return otp.getCode().equals(request.getCode());
     }
 
     private String generateNumericCode(int length) {
